@@ -11,22 +11,13 @@ mult:   .word   0
         daddi   $1, $1, 8      ;
 
 loop:   lw      $12, 0($1)     ; $12 = A[i]
+        daddi   $5, $5, 1      ; i++
+        daddi   $1, $1, 8      ; 
 
-        daddi   $5, $5, 3      ; i++
-        daddi   $1, $1, 24     ;
-        
         dmul    $12, $12, $9   ; $12 = $12*$9 ;; $12 = A[i]*mult
-        lw      $13, -16($1)     ; $13 = A[i]
-        dadd    $9, $9, $12    ; $9 = $9 + $12  ;; mult = mult + A[i]*mult
-
-        dmul    $13, $13, $9   ; $13 = $13*$9 ;; $13 = A[i]*mult
-        lw      $14, -8($1)    ; $14 = A[i]
-        dadd    $9, $9, $13    ; $9 = $9 + $13  ;; mult = mult + A[i]*mult
-        
-        dmul    $14, $14, $9   ; $14 = $14*$9 ;; $14 = A[i]*mult
-        dadd    $9, $9, $14    ; $9 = $9 + $14  ;; mult = mult + A[i]*mult
 
         bne     $6, $5, loop   ; Exit loop if i == N
+        dadd    $9, $9, $12    ; $9 = $9 + $12  ;; mult = mult + A[i]*mult
         
         sw      $9, mult($0)   ; Store result
         halt
